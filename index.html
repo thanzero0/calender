@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalender Minimalis</title>
+    <meta name="description" content="Kalender digital minimalis yang modern, elegan, dan responsif.">
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="calendar-container" id="calendar">
+        <div class="calendar-header">
+            <h1 class="month-year" id="current-month">Januari 2026</h1>
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prev-btn" aria-label="Previous Month">
+                    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+                <button class="nav-btn" id="next-btn" aria-label="Next Month">
+                    <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+            </div>
+        </div>
+        <div class="calendar-grid" id="calendar-grid">
+            <div class="day-name">Sen</div>
+            <div class="day-name">Sel</div>
+            <div class="day-name">Rab</div>
+            <div class="day-name">Kam</div>
+            <div class="day-name">Jum</div>
+            <div class="day-name">Sab</div>
+            <div class="day-name">Min</div>
+            <!-- Days will be injected here by JS -->
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
