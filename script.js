@@ -105,3 +105,31 @@ renderCalendar();
 
 // Add CSS transition via JS for easier dynamic animation
 calendarGrid.style.transition = 'opacity 0.4s ease';
+
+// --- Custom Cursor Logic ---
+const cursorDot = document.getElementById('cursor-dot');
+const cursorOutline = document.getElementById('cursor-outline');
+
+window.addEventListener('mousemove', (e) => {
+    const posX = e.clientX;
+    const posY = e.clientY;
+
+    // Direct movement for the dot
+    cursorDot.style.left = `${posX}px`;
+    cursorDot.style.top = `${posY}px`;
+
+    // Direct movement for the outline (CSS handles the smoothness via transition)
+    cursorOutline.style.left = `${posX}px`;
+    cursorOutline.style.top = `${posY}px`;
+});
+
+// Hide cursor when leaving the window
+document.addEventListener('mouseleave', () => {
+    cursorDot.style.opacity = '0';
+    cursorOutline.style.opacity = '0';
+});
+
+document.addEventListener('mouseenter', () => {
+    cursorDot.style.opacity = '1';
+    cursorOutline.style.opacity = '1';
+});

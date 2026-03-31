@@ -32,6 +32,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  cursor: none; /* Hide default cursor everywhere */
 }
 
 body {
@@ -58,8 +59,9 @@ body {
   left: 0;
   pointer-events: none;
   z-index: 10000;
-  transition: transform 0.1s ease, background-color 0.4s ease;
+  transition: transform 0.1s ease, background-color 0.4s ease, opacity 0.3s ease;
   transform: translate(-50%, -50%);
+  opacity: 0; /* Hidden until first move */
 }
 
 .cursor-outline {
@@ -72,8 +74,9 @@ body {
   left: 0;
   pointer-events: none;
   z-index: 9999;
-  transition: transform 0.15s ease-out, background-color 0.4s ease, border-color 0.4s ease, width 0.3s ease, height 0.3s ease;
+  transition: transform 0.15s ease-out, background-color 0.4s ease, border-color 0.4s ease, width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
   transform: translate(-50%, -50%);
+  opacity: 0; /* Hidden until first move */
 }
 
 /* Hover effect for interactive elements */
