@@ -106,30 +106,28 @@ renderCalendar();
 // Add CSS transition via JS for easier dynamic animation
 calendarGrid.style.transition = 'opacity 0.4s ease';
 
-// --- Custom Cursor Logic ---
-const cursorDot = document.getElementById('cursor-dot');
-const cursorOutline = document.getElementById('cursor-outline');
+// --- Custom Cursor Glow Logic ---
+const cursorGlow = document.getElementById('cursor-glow');
 
 window.addEventListener('mousemove', (e) => {
     const posX = e.clientX;
     const posY = e.clientY;
 
-    // Direct movement for the dot
-    cursorDot.style.left = `${posX}px`;
-    cursorDot.style.top = `${posY}px`;
-
-    // Direct movement for the outline (CSS handles the smoothness via transition)
-    cursorOutline.style.left = `${posX}px`;
-    cursorOutline.style.top = `${posY}px`;
+    // Movement for the glow
+    cursorGlow.style.left = `${posX}px`;
+    cursorGlow.style.top = `${posY}px`;
+    
+    // Show on first move
+    if (cursorGlow.style.opacity === '0' || !cursorGlow.style.opacity) {
+        cursorGlow.style.opacity = '1';
+    }
 });
 
-// Hide cursor when leaving the window
+// Hide glow when leaving the window
 document.addEventListener('mouseleave', () => {
-    cursorDot.style.opacity = '0';
-    cursorOutline.style.opacity = '0';
+    cursorGlow.style.opacity = '0';
 });
 
 document.addEventListener('mouseenter', () => {
-    cursorDot.style.opacity = '1';
-    cursorOutline.style.opacity = '1';
+    cursorGlow.style.opacity = '1';
 });

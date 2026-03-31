@@ -32,7 +32,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  cursor: none; /* Hide default cursor everywhere */
 }
 
 body {
@@ -45,54 +44,22 @@ body {
   min-height: 100vh;
   overflow: hidden;
   transition: background-color 0.4s ease, color 0.4s ease;
-  cursor: none; /* Hide default cursor */
 }
 
-/* Custom Cursor Elements */
-.cursor-dot {
-  width: 8px;
-  height: 8px;
-  background-color: var(--cursor-color);
-  border-radius: 50%;
+/* Background Glow Effect */
+.cursor-glow {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--cursor-color) 25%, transparent) 0%, transparent 70%);
   position: fixed;
   top: 0;
   left: 0;
   pointer-events: none;
-  z-index: 10000;
-  transition: transform 0.1s ease, background-color 0.4s ease, opacity 0.3s ease;
+  z-index: -1; /* Stay behind everything */
   transform: translate(-50%, -50%);
-  opacity: 0; /* Hidden until first move */
-}
-
-.cursor-outline {
-  width: 40px;
-  height: 40px;
-  border: 2px solid var(--cursor-color);
-  border-radius: 50%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  z-index: 9999;
-  transition: transform 0.15s ease-out, background-color 0.4s ease, border-color 0.4s ease, width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
-  transform: translate(-50%, -50%);
-  opacity: 0; /* Hidden until first move */
-}
-
-/* Hover effect for interactive elements */
-body:has(button:hover, .day:not(.empty):hover) .cursor-outline {
-  width: 60px;
-  height: 60px;
-  background-color: color-mix(in srgb, var(--cursor-color) 15%, transparent);
-}
-
-body:has(button:hover, .day:not(.empty):hover) .cursor-dot {
-  transform: translate(-50%, -50%) scale(1.5);
-}
-
-/* Links and buttons shouldn't have default cursor pointer either */
-button, .day:not(.empty), .nav-btn {
-  cursor: none !important;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  filter: blur(40px);
 }
 
 .calendar-container {
