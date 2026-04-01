@@ -86,11 +86,43 @@ body {
   margin-bottom: 30px;
 }
 
+.month-year-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 12px;
+  transition: var(--transition);
+}
+
+.month-year-wrapper:hover {
+  background-color: var(--border-color);
+}
+
 .month-year {
   font-size: 24px;
   font-weight: 700;
   letter-spacing: -0.02em;
 }
+
+.jump-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  transition: var(--transition);
+}
+
+.jump-btn svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+
 
 .nav-buttons {
   display: flex;
@@ -209,10 +241,143 @@ body {
   color: var(--border-color);
 }
 
+/* Jump Overlay Styles */
+.jump-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--surface-color);
+  border-radius: 32px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.95);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.jump-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+}
+
+.jump-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.jump-header h3 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 28px;
+  cursor: pointer;
+  transition: var(--transition);
+  line-height: 1;
+}
+
+.close-btn:hover {
+  color: var(--text-primary);
+  transform: rotate(90deg);
+}
+
+.jump-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.jump-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.jump-group label {
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.jump-group select {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 16px;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23999999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 18px;
+  transition: var(--transition);
+}
+
+.jump-group select:focus {
+  border-color: var(--text-secondary);
+}
+
+.jump-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.today-btn {
+  flex: 1;
+  background-color: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  padding: 14px;
+  border-radius: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.today-btn:hover {
+  background-color: var(--border-color);
+  transform: translateY(-2px);
+}
+
+.apply-btn {
+  flex: 2;
+  background-color: var(--accent-color);
+  color: var(--bg-color);
+  border: none;
+  padding: 14px;
+  border-radius: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.apply-btn:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-2px);
+}
+
 /* Responsive adjustments */
 @media (max-width: 480px) {
   .calendar-container {
     max-width: 90vw;
-    padding: 30px 20px;
+    padding: 20px;
   }
 }
+

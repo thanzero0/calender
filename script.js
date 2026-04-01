@@ -3,6 +3,16 @@ const calendarGrid = document.getElementById('calendar-grid');
 const prevBtn = document.getElementById('prev-btn');
 const nextBtn = document.getElementById('next-btn');
 const themeToggle = document.getElementById('theme-toggle');
+const jumpOverlay = document.getElementById('jump-overlay');
+const monthSelect = document.getElementById('month-select');
+const yearSelect = document.getElementById('year-select');
+const jumpBtn = document.getElementById('jump-btn');
+const closeJump = document.getElementById('close-jump');
+const applyJump = document.getElementById('apply-jump');
+const todayJump = document.getElementById('today-jump');
+const monthYearWrapper = document.querySelector('.month-year-wrapper');
+
+
 
 // Theme Logic
 const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -83,6 +93,32 @@ function renderCalendar() {
     }
 }
 
+// Populate jump selectors
+function populateSelectors() {
+    // Months
+    monthSelect.innerHTML = monthNames.map((month, index) => 
+        `<option value="${index}">${month}</option>`
+    ).join('');
+    
+    // Years (Current year +/- 10 years)
+    const currentYear = new Date().getFullYear();
+    let yearHTML = '';
+    for (let i = currentYear - 20; i <= currentYear + 20; i++) {
+        yearHTML += `<option value="${i}">${i}</option>`;
+    }
+    yearSelect.innerHTML = yearHTML;
+}
+
+function openJumpOverlay() {
+    monthSelect.value = currentDate.getMonth();
+    yearSelect.value = currentDate.getFullYear();
+    jumpOverlay.classList.add('active');
+}
+
+function closeJumpOverlay() {
+    jumpOverlay.classList.remove('active');
+}
+
 // Navigation Events
 prevBtn.addEventListener('click', () => {
     currentDate.setMonth(currentDate.getMonth() - 1);
@@ -100,8 +136,52 @@ nextBtn.addEventListener('click', () => {
     setTimeout(() => { calendarGrid.style.opacity = '1'; }, 10);
 });
 
+jumpBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    openJumpOverlay();
+});
+
+monthYearWrapper.addEventListener('click', openJumpOverlay);
+
+closeJump.addEventListener('click', closeJumpOverlay);
+
+applyJump.addEventListener('click', () => {
+    const selectedMonth = parseInt(monthSelect.value);
+    const selectedYear = parseInt(yearSelect.value);
+    
+    // Set to 1st of the month first to avoid "31st Feb" jumping to March
+    currentDate.setDate(1);
+    currentDate.setMonth(selectedMonth);
+    currentDate.setFullYear(selectedYear);
+    
+    renderCalendar();
+    closeJumpOverlay();
+    
+    // Animation
+    calendarGrid.style.opacity = '0';
+    setTimeout(() => { calendarGrid.style.opacity = '1'; }, 10);
+});
+
+todayJump.addEventListener('click', () => {
+    currentDate = new Date();
+    renderCalendar();
+    closeJumpOverlay();
+    
+    // Animation
+    calendarGrid.style.opacity = '0';
+    setTimeout(() => { calendarGrid.style.opacity = '1'; }, 10);
+});
+
+
+// Close overlay on escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeJumpOverlay();
+});
+
 // Initialization
+populateSelectors();
 renderCalendar();
+
 
 // Add CSS transition via JS for easier dynamic animation
 calendarGrid.style.transition = 'opacity 0.4s ease';

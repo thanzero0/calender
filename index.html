@@ -14,7 +14,13 @@
 <body>
     <div class="calendar-container" id="calendar">
         <div class="calendar-header">
-            <h1 class="month-year" id="current-month">Januari 2026</h1>
+            <div class="month-year-wrapper">
+                <h1 class="month-year" id="current-month">Januari 2026</h1>
+                <button class="jump-btn" id="jump-btn" aria-label="Jump to month/year">
+                    <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"></path></svg>
+                </button>
+            </div>
+
             <div class="nav-buttons">
                 <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Theme">
                     <!-- Sun Icon (for Dark Mode) -->
@@ -31,16 +37,32 @@
             </div>
         </div>
         <div class="calendar-grid" id="calendar-grid">
-            <div class="day-name">Sen</div>
-            <div class="day-name">Sel</div>
-            <div class="day-name">Rab</div>
-            <div class="day-name">Kam</div>
-            <div class="day-name">Jum</div>
-            <div class="day-name">Sab</div>
-            <div class="day-name">Min</div>
-            <!-- Days will be injected here by JS -->
+            <!-- Grid content -->
+        </div>
+        
+        <!-- Jump Selection Overlay -->
+        <div class="jump-overlay" id="jump-overlay">
+            <div class="jump-header">
+                <h3>Pilih Bulan & Tahun</h3>
+                <button id="close-jump" class="close-btn">&times;</button>
+            </div>
+            <div class="jump-body">
+                <div class="jump-group">
+                    <label for="month-select">Bulan</label>
+                    <select id="month-select"></select>
+                </div>
+                <div class="jump-group">
+                    <label for="year-select">Tahun</label>
+                    <select id="year-select"></select>
+                </div>
+                <div class="jump-actions">
+                    <button id="today-jump" class="today-btn">Hari Ini</button>
+                    <button id="apply-jump" class="apply-btn">Tampilkan</button>
+                </div>
+            </div>
         </div>
     </div>
+
     <div class="cursor-glow" id="cursor-glow"></div>
     <script src="script.js"></script>
 </body>
