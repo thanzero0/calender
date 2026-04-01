@@ -40,20 +40,16 @@
             <!-- Grid content -->
         </div>
         
-        <!-- Jump Selection Overlay -->
+        <!-- Compact Jump Selection Popup -->
         <div class="jump-overlay" id="jump-overlay">
             <div class="jump-header">
-                <h3>Pilih Bulan & Tahun</h3>
+                <h3>Lompat ke</h3>
                 <button id="close-jump" class="close-btn">&times;</button>
             </div>
             <div class="jump-body">
-                <div class="jump-group">
-                    <label for="month-select">Bulan</label>
-                    <select id="month-select"></select>
-                </div>
-                <div class="jump-group">
-                    <label for="year-select">Tahun</label>
-                    <select id="year-select"></select>
+                <div class="jump-selectors-row">
+                    <select id="month-select" aria-label="Bulan"></select>
+                    <select id="year-select" aria-label="Tahun"></select>
                 </div>
                 <div class="jump-actions">
                     <button id="today-jump" class="today-btn">Hari Ini</button>
@@ -61,6 +57,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 
     <div class="cursor-glow" id="cursor-glow"></div>
