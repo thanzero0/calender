@@ -40,20 +40,25 @@
             <!-- Grid content -->
         </div>
         
-        <!-- Compact Jump Selection Popup -->
+        <!-- Custom Premium Jump Selection Popup -->
         <div class="jump-overlay" id="jump-overlay">
             <div class="jump-header">
                 <h3>Lompat ke</h3>
                 <button id="close-jump" class="close-btn">&times;</button>
             </div>
+            
             <div class="jump-body">
-                <div class="jump-selectors-row">
-                    <select id="month-select" aria-label="Bulan"></select>
-                    <select id="year-select" aria-label="Tahun"></select>
+                <div class="month-selector-grid" id="month-picker">
+                    <!-- Months will be injected here -->
                 </div>
+                
+                <div class="year-selector-scroller" id="year-picker">
+                    <!-- Years will be injected here -->
+                </div>
+
                 <div class="jump-actions">
                     <button id="today-jump" class="today-btn">Hari Ini</button>
-                    <button id="apply-jump" class="apply-btn">Tampilkan</button>
+                    <button id="apply-jump" class="apply-btn">Konfirmasi</button>
                 </div>
             </div>
         </div>

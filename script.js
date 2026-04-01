@@ -4,17 +4,17 @@ const prevBtn = document.getElementById('prev-btn');
 const nextBtn = document.getElementById('next-btn');
 const themeToggle = document.getElementById('theme-toggle');
 const jumpOverlay = document.getElementById('jump-overlay');
-const monthSelect = document.getElementById('month-select');
-const yearSelect = document.getElementById('year-select');
+const monthPicker = document.getElementById('month-picker');
+const yearPicker = document.getElementById('year-picker');
 const jumpBtn = document.getElementById('jump-btn');
 const closeJump = document.getElementById('close-jump');
 const applyJump = document.getElementById('apply-jump');
 const todayJump = document.getElementById('today-jump');
 const monthYearWrapper = document.querySelector('.month-year-wrapper');
 
-
-
-// Theme Logic
+let currentDate = new Date();
+let tempSelectedMonth = currentDate.getMonth();
+let tempSelectedYear = currentDate.getFullYear();
 const savedTheme = localStorage.getItem('theme') || 'dark';
 document.documentElement.setAttribute('data-theme', savedTheme);
 
@@ -31,8 +31,6 @@ const monthNames = [
     'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
     'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
 ];
-
-let currentDate = new Date();
 
 function renderCalendar() {
     // Current month and year information
@@ -93,31 +91,61 @@ function renderCalendar() {
     }
 }
 
-// Populate jump selectors
+// Populate jump selectors (Custom Grid)
 function populateSelectors() {
-    // Months
-    monthSelect.innerHTML = monthNames.map((month, index) => 
-        `<option value="${index}">${month}</option>`
+    // Months Grid
+    monthPicker.innerHTML = monthNames.map((month, index) => 
+        `<div class="month-item ${index === tempSelectedMonth ? 'selected' : ''}" data-month="${index}">
+            ${month.substring(0, 3)}
+        </div>`
     ).join('');
     
-    // Years (Current year +/- 10 years)
+    // Years Scroller
     const currentYear = new Date().getFullYear();
     let yearHTML = '';
     for (let i = currentYear - 20; i <= currentYear + 20; i++) {
-        yearHTML += `<option value="${i}">${i}</option>`;
+        yearHTML += `<div class="year-item ${i === tempSelectedYear ? 'selected' : ''}" data-year="${i}">${i}</div>`;
     }
-    yearSelect.innerHTML = yearHTML;
+    yearPicker.innerHTML = yearHTML;
+
+    // Add click events to month items
+    document.querySelectorAll('.month-item').forEach(item => {
+        item.addEventListener('click', () => {
+            document.querySelectorAll('.month-item').forEach(m => m.classList.remove('selected'));
+            item.classList.add('selected');
+            tempSelectedMonth = parseInt(item.dataset.month);
+        });
+    });
+
+    // Add click events to year items
+    document.querySelectorAll('.year-item').forEach(item => {
+        item.addEventListener('click', () => {
+            document.querySelectorAll('.year-item').forEach(y => y.classList.remove('selected'));
+            item.classList.add('selected');
+            tempSelectedYear = parseInt(item.dataset.year);
+        });
+    });
 }
 
 function openJumpOverlay() {
-    monthSelect.value = currentDate.getMonth();
-    yearSelect.value = currentDate.getFullYear();
+    tempSelectedMonth = currentDate.getMonth();
+    tempSelectedYear = currentDate.getFullYear();
+    populateSelectors();
     jumpOverlay.classList.add('active');
+    
+    // Scroll selected year into view
+    setTimeout(() => {
+        const selectedYearEl = yearPicker.querySelector('.year-item.selected');
+        if (selectedYearEl) {
+            selectedYearEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+    }, 100);
 }
 
 function closeJumpOverlay() {
     jumpOverlay.classList.remove('active');
 }
+
 
 // Navigation Events
 prevBtn.addEventListener('click', () => {
@@ -146,13 +174,10 @@ monthYearWrapper.addEventListener('click', openJumpOverlay);
 closeJump.addEventListener('click', closeJumpOverlay);
 
 applyJump.addEventListener('click', () => {
-    const selectedMonth = parseInt(monthSelect.value);
-    const selectedYear = parseInt(yearSelect.value);
-    
-    // Set to 1st of the month first to avoid "31st Feb" jumping to March
+    // Update currentDate with temp values
     currentDate.setDate(1);
-    currentDate.setMonth(selectedMonth);
-    currentDate.setFullYear(selectedYear);
+    currentDate.setMonth(tempSelectedMonth);
+    currentDate.setFullYear(tempSelectedYear);
     
     renderCalendar();
     closeJumpOverlay();
@@ -161,6 +186,7 @@ applyJump.addEventListener('click', () => {
     calendarGrid.style.opacity = '0';
     setTimeout(() => { calendarGrid.style.opacity = '1'; }, 10);
 });
+
 
 todayJump.addEventListener('click', () => {
     currentDate = new Date();

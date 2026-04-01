@@ -246,12 +246,12 @@ body {
   position: absolute;
   top: 90px;
   left: 50%;
-  transform: translateX(-50%) scale(0.95);
-  width: calc(100% - 80px);
-  max-width: 320px;
-  height: auto;
-  background-color: var(--surface-color);
-  border-radius: 20px;
+  transform: translateX(-50%) translateY(20px);
+  width: calc(100% - 40px);
+  max-width: 380px;
+  background-color: color-mix(in srgb, var(--surface-color) 85%, transparent);
+  backdrop-filter: blur(12px);
+  border-radius: 24px;
   padding: 24px;
   display: flex;
   flex-direction: column;
@@ -259,14 +259,14 @@ body {
   opacity: 0;
   pointer-events: none;
   border: 1px solid var(--border-color);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .jump-overlay.active {
   opacity: 1;
   pointer-events: auto;
-  transform: translateX(-50%) scale(1);
+  transform: translateX(-50%) translateY(0);
 }
 
 .jump-header {
@@ -290,6 +290,73 @@ body {
   cursor: pointer;
   transition: var(--transition);
   line-height: 1;
+}
+
+.close-btn:hover {
+  color: var(--text-primary);
+}
+
+/* Custom Pickers */
+.month-selector-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.month-item {
+  padding: 10px;
+  text-align: center;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: var(--transition);
+}
+
+.month-item:hover {
+  background-color: var(--border-color);
+}
+
+.month-item.selected {
+  background-color: var(--accent-color);
+  color: var(--bg-color);
+  font-weight: 700;
+}
+
+.year-selector-scroller {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 10px 0 20px 0;
+  margin-bottom: 10px;
+  scrollbar-width: none; /* Hide scrollbar for clean look */
+}
+
+.year-selector-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.year-item {
+  flex: 0 0 auto;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  transition: var(--transition);
+}
+
+.year-item:hover {
+  border-color: var(--text-secondary);
+}
+
+.year-item.selected {
+  background-color: var(--accent-color);
+  color: var(--bg-color);
+  border-color: var(--accent-color);
 }
 
 .close-btn:hover {
