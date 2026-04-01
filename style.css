@@ -271,9 +271,8 @@ body {
 
 .jump-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+  justify-content: flex-end;
+  margin-bottom: 10px;
 }
 
 .jump-header h3 {
