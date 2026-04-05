@@ -27,6 +27,13 @@ let currentSizeIndex = sizes.indexOf(localStorage.getItem('calendar-size') || 'm
 if (currentSizeIndex === -1) currentSizeIndex = 1;
 document.body.setAttribute('data-size', sizes[currentSizeIndex]);
 
+// Events state persistence
+let calendarEvents = JSON.parse(localStorage.getItem('calendar-events')) || {};
+
+function saveEvents() {
+    localStorage.setItem('calendar-events', JSON.stringify(calendarEvents));
+}
+
 themeToggle.addEventListener('click', () => {
     const currentTheme = document.documentElement.getAttribute('data-theme');
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
@@ -73,38 +80,66 @@ function renderCalendar() {
     for (let x = adjustedFirstDay; x > 0; x--) {
         const dayDiv = document.createElement('div');
         dayDiv.classList.add('day', 'other-month');
+        // Get correct date info for previous month
+        const prevMonthDate = new Date(year, month - 1, daysInPrevMonth - x + 1);
+        const dayKey = `${prevMonthDate.getFullYear()}-${prevMonthDate.getMonth()}-${prevMonthDate.getDate()}`;
+        
         dayDiv.textContent = daysInPrevMonth - x + 1;
+        if (calendarEvents[dayKey]) dayDiv.classList.add('has-event');
+        
+        dayDiv.addEventListener('click', () => toggleEvent(dayKey, dayDiv));
         calendarGrid.appendChild(dayDiv);
     }
     
     // Current month's days
-    const today = new Date();
     for (let i = 1; i <= daysInCurrentMonth; i++) {
         const dayDiv = document.createElement('div');
         dayDiv.classList.add('day');
         dayDiv.textContent = i;
+        const dayKey = `${year}-${month}-${i}`;
         
         // Check if it's today
+        const today = new Date();
         if (i === today.getDate() && 
             month === today.getMonth() && 
             year === today.getFullYear()) {
             dayDiv.classList.add('today');
         }
         
+        if (calendarEvents[dayKey]) dayDiv.classList.add('has-event');
+        
+        dayDiv.addEventListener('click', () => toggleEvent(dayKey, dayDiv));
         calendarGrid.appendChild(dayDiv);
     }
     
-    // Fill remaining grid slots to maintain consistent layout (showing first few days of next month)
-    const totalSlots = 42; // 6 rows * 7 columns
+    // Fill remaining grid slots (next month)
+    const totalSlots = 42; 
     const totalRendered = adjustedFirstDay + daysInCurrentMonth;
     const remainingSlots = totalSlots - totalRendered;
     
     for (let i = 1; i <= remainingSlots; i++) {
         const dayDiv = document.createElement('div');
         dayDiv.classList.add('day', 'other-month');
+        const nextMonthDate = new Date(year, month + 1, i);
+        const dayKey = `${nextMonthDate.getFullYear()}-${nextMonthDate.getMonth()}-${nextMonthDate.getDate()}`;
+        
         dayDiv.textContent = i;
+        if (calendarEvents[dayKey]) dayDiv.classList.add('has-event');
+        
+        dayDiv.addEventListener('click', () => toggleEvent(dayKey, dayDiv));
         calendarGrid.appendChild(dayDiv);
     }
+}
+
+function toggleEvent(dateKey, element) {
+    if (calendarEvents[dateKey]) {
+        delete calendarEvents[dateKey];
+        element.classList.remove('has-event');
+    } else {
+        calendarEvents[dateKey] = true;
+        element.classList.add('has-event');
+    }
+    saveEvents();
 }
 
 // Populate jump selectors (Custom Grid)

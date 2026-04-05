@@ -348,6 +348,27 @@ body {
   color: var(--border-color);
 }
 
+.day.has-event::after {
+  content: '';
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  width: 4px;
+  height: 4px;
+  background-color: var(--text-primary);
+  border-radius: 50%;
+  animation: dotFade 0.3s ease-out;
+}
+
+.day.today.has-event::after {
+  background-color: var(--bg-color);
+}
+
+@keyframes dotFade {
+  from { opacity: 0; transform: scale(0); }
+  to { opacity: 1; transform: scale(1); }
+}
+
 /* Jump Overlay (Pop-up Style) */
 .jump-overlay {
   position: absolute;
