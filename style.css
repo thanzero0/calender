@@ -351,10 +351,10 @@ body {
 .day.has-event::after {
   content: '';
   position: absolute;
-  bottom: 6px;
-  right: 6px;
-  width: 4px;
-  height: 4px;
+  bottom: 5px;
+  right: 5px;
+  width: 6px;
+  height: 6px;
   background-color: var(--text-primary);
   border-radius: 50%;
   animation: dotFade 0.3s ease-out;
