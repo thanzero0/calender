@@ -104,6 +104,29 @@ body {
   font-size: 24px;
   font-weight: 700;
   letter-spacing: -0.02em;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+}
+
+.month-year.slide-out-left {
+  transform: translateX(-10px);
+  opacity: 0;
+}
+
+.month-year.slide-out-right {
+  transform: translateX(10px);
+  opacity: 0;
+}
+
+.month-year.slide-in-left {
+  transform: translateX(-10px);
+  opacity: 0;
+  transition: none;
+}
+
+.month-year.slide-in-right {
+  transform: translateX(10px);
+  opacity: 0;
+  transition: none;
 }
 
 .jump-btn {
@@ -194,6 +217,29 @@ body {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 10px;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+}
+
+.calendar-grid.slide-out-left {
+  transform: translateX(-20px);
+  opacity: 0;
+}
+
+.calendar-grid.slide-out-right {
+  transform: translateX(20px);
+  opacity: 0;
+}
+
+.calendar-grid.slide-in-left {
+  transform: translateX(-20px);
+  opacity: 0;
+  transition: none;
+}
+
+.calendar-grid.slide-in-right {
+  transform: translateX(20px);
+  opacity: 0;
+  transition: none;
 }
 
 .day-name {

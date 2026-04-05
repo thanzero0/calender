@@ -147,21 +147,60 @@ function closeJumpOverlay() {
 }
 
 
+const animateCalendar = (direction) => {
+    // direction: 'left' (next), 'right' (prev), or 'fade' (jump/today)
+    
+    if (direction === 'fade') {
+        calendarGrid.style.opacity = '0';
+        monthYearDisplay.style.opacity = '0';
+        setTimeout(() => {
+            renderCalendar();
+            calendarGrid.style.opacity = '1';
+            monthYearDisplay.style.opacity = '1';
+        }, 200);
+        return;
+    }
+
+    const outClass = direction === 'next' ? 'slide-out-left' : 'slide-out-right';
+    const inClass = direction === 'next' ? 'slide-in-right' : 'slide-in-left';
+
+    // Slide out
+    calendarGrid.classList.add(outClass);
+    monthYearDisplay.classList.add(outClass);
+    
+    setTimeout(() => {
+        // Change month
+        if (direction === 'next') {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+        } else {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+        }
+        
+        renderCalendar();
+        
+        // Setup for slide in (instantly move to opposite side)
+        calendarGrid.classList.remove(outClass);
+        monthYearDisplay.classList.remove(outClass);
+        
+        calendarGrid.classList.add(inClass);
+        monthYearDisplay.classList.add(inClass);
+        
+        // Force reflow
+        void calendarGrid.offsetWidth;
+        
+        // Slide in
+        calendarGrid.classList.remove(inClass);
+        monthYearDisplay.classList.remove(inClass);
+    }, 250);
+};
+
 // Navigation Events
 prevBtn.addEventListener('click', () => {
-    currentDate.setMonth(currentDate.getMonth() - 1);
-    renderCalendar();
-    // Add simple animation trigger
-    calendarGrid.style.opacity = '0';
-    setTimeout(() => { calendarGrid.style.opacity = '1'; }, 10);
+    animateCalendar('prev');
 });
 
 nextBtn.addEventListener('click', () => {
-    currentDate.setMonth(currentDate.getMonth() + 1);
-    renderCalendar();
-    // Add simple animation trigger
-    calendarGrid.style.opacity = '0';
-    setTimeout(() => { calendarGrid.style.opacity = '1'; }, 10);
+    animateCalendar('next');
 });
 
 jumpBtn.addEventListener('click', (e) => {
@@ -179,23 +218,15 @@ applyJump.addEventListener('click', () => {
     currentDate.setMonth(tempSelectedMonth);
     currentDate.setFullYear(tempSelectedYear);
     
-    renderCalendar();
+    animateCalendar('fade');
     closeJumpOverlay();
-    
-    // Animation
-    calendarGrid.style.opacity = '0';
-    setTimeout(() => { calendarGrid.style.opacity = '1'; }, 10);
 });
 
 
 todayJump.addEventListener('click', () => {
     currentDate = new Date();
-    renderCalendar();
+    animateCalendar('fade');
     closeJumpOverlay();
-    
-    // Animation
-    calendarGrid.style.opacity = '0';
-    setTimeout(() => { calendarGrid.style.opacity = '1'; }, 10);
 });
 
 
@@ -207,10 +238,6 @@ document.addEventListener('keydown', (e) => {
 // Initialization
 populateSelectors();
 renderCalendar();
-
-
-// Add CSS transition via JS for easier dynamic animation
-calendarGrid.style.transition = 'opacity 0.4s ease';
 
 // --- Custom Cursor Glow Logic ---
 const cursorGlow = document.getElementById('cursor-glow');
