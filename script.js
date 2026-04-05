@@ -7,6 +7,7 @@ const jumpOverlay = document.getElementById('jump-overlay');
 const monthPicker = document.getElementById('month-picker');
 const yearPicker = document.getElementById('year-picker');
 const jumpBtn = document.getElementById('jump-btn');
+const sizeToggle = document.getElementById('size-toggle');
 const closeJump = document.getElementById('close-jump');
 const applyJump = document.getElementById('apply-jump');
 const todayJump = document.getElementById('today-jump');
@@ -15,8 +16,16 @@ const monthYearWrapper = document.querySelector('.month-year-wrapper');
 let currentDate = new Date();
 let tempSelectedMonth = currentDate.getMonth();
 let tempSelectedYear = currentDate.getFullYear();
+
+// Theme Initialization
 const savedTheme = localStorage.getItem('theme') || 'dark';
 document.documentElement.setAttribute('data-theme', savedTheme);
+
+// Size Initialization
+const sizes = ['small', 'medium', 'large'];
+let currentSizeIndex = sizes.indexOf(localStorage.getItem('calendar-size') || 'medium');
+if (currentSizeIndex === -1) currentSizeIndex = 1;
+document.body.setAttribute('data-size', sizes[currentSizeIndex]);
 
 themeToggle.addEventListener('click', () => {
     const currentTheme = document.documentElement.getAttribute('data-theme');
@@ -24,6 +33,13 @@ themeToggle.addEventListener('click', () => {
     
     document.documentElement.setAttribute('data-theme', newTheme);
     localStorage.setItem('theme', newTheme);
+});
+
+sizeToggle.addEventListener('click', () => {
+    currentSizeIndex = (currentSizeIndex + 1) % sizes.length;
+    const newSize = sizes[currentSizeIndex];
+    document.body.setAttribute('data-size', newSize);
+    localStorage.setItem('calendar-size', newSize);
 });
 
 const dayNames = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
